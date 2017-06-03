@@ -1,0 +1,43 @@
+---
+title: "Barbeque Restaurant Map"
+author: "Kenneth W. Moffett"
+date: "June 3, 2017"
+output: html_document
+---
+
+This is a map of some of the Barbeque restaurants that I like that are located in the United States.
+
+# Load Leaflet Package and Dataset
+
+This data frame contains the following information: Barbeque restaurant name, the longitude and latitude locations of the restaurants, adn the address/location of each of the restaurants. 
+
+```{r}
+library(leaflet)
+data <- read.csv("Barbeque Restaurants.csv", header = TRUE)
+```
+
+# View the Data
+
+```{r}
+data
+```
+
+# Make Markers in the Graph Provide Address and Location
+
+
+```{r}
+restaurantpopup <- paste0("<strong>", data$restaurant, "</strong>", "<br>", "Address: ", data$address, "<br>", "City, State and Zip: ", data$location)
+```
+
+# Barbeque Restaurants Map
+
+This map shows the locations, along with a popup for each that tells you the restaurant name, the address, city, state, and the zip code in which it is located.
+
+```{r, echo = FALSE}
+my_map2 <- data %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addProviderTiles(providers$OpenStreetMap) %>%
+  addMarkers(~longitude, ~latitude, popup = ~ restaurantpopup, label = ~ restaurant)
+my_map2
+```
